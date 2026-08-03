@@ -5,6 +5,7 @@ rules_version = '2';
 // posts（部落格）：所有人可讀；新增/刪除/編輯限管理者；按讚(likes)/分享(shares)
 //                  開放訪客但只能對該欄位 +1。
 // media（媒體相關）：所有人可讀；新增/編輯/刪除限管理者。
+// promos（優惠連結）：所有人可讀；新增/編輯/刪除限管理者。
 //
 // 部署：Firebase 主控台 → Firestore Database → 規則 → 貼上並發布。
 
@@ -30,6 +31,12 @@ service cloud.firestore {
     }
 
     match /media/{mediaId} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.token.email == 'neo0935@gmail.com';
+    }
+
+    match /promos/{promoId} {
       allow read: if true;
       allow write: if request.auth != null
         && request.auth.token.email == 'neo0935@gmail.com';
